@@ -1,0 +1,177 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i');
+
+body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-image: linear-gradient(to top,rgba(237,237,237,0.14),#eff4fb);
+    background-repeat: no-repeat;
+    margin: 0;
+}
+.m-top {
+    margin-top: 20px;
+}
+.m-right {
+    margin-right: 20px;
+}
+.m-bottom {
+    margin-bottom: 20px;
+}
+.p-20 {
+    padding: 20px;
+}
+.t-center {
+    text-align: center;
+}
+p, h1, h2, h3, h4, h5, h6, a {
+    margin: 0;
+}
+.lowercase {
+    text-transform: lowercase;
+}
+.uppercase {
+    text-transform: uppercase;
+}
+.capitalize {
+    text-transform: capitalize;
+}
+.f-strong {
+    font-weight: 600;
+}
+.f-stronger {
+    font-weight: 900;
+}
+.f-light {
+    font-weight: 300;
+}
+.f-normal {
+    font-weight: 400;
+}
+.dark {
+    color: #000;
+}
+.light-dark {
+    color: #7a8083;
+}
+.f-blue {
+    color: #4ab7ee;
+}
+.back-default {
+    background-color: #fff;
+}
+.back-primary {
+    background-color: #f6f8fa;
+}
+@media (max-width: 767px) {
+    .left-navigation {
+        width: 0 !important;
+        overflow: hidden;
+        transition: all 0.5s ease;
+    }
+    .main-page {
+        transition: all 0.5s ease;
+        margin-left: 0 !important;
+    }
+}
+@media (min-width: 767px) {
+    .left-navigation {
+        transition: all 0.5s ease;
+    }
+    .main-page {
+        transition: all 0.5s ease;
+    }
+}
+.left-navigation {
+    width: 270px;
+    position: fixed;
+    height: 100%;
+}
+.logo-holder {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+.logo-holder > img.app-logo {
+    display: flex;
+    height: 124px;
+    width: auto;
+    align-items: center;
+    flex-direction: column;
+}
+.nav-list {
+    list-style: none;
+    padding-left: 0;
+    padding: 20px;
+    height: -webkit-fill-available;
+}
+.main-page {
+    margin-left: 270px;
+    padding: 20px;
+    width: 100%;
+    transition: all 0.5s ease;
+}
+
+
+/******************** addition css ******************/
+.pointer{
+    cursor: pointer;
+}
+.black{
+    color: #1b1e21;
+}
+
+.page-header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0 20px 0 20px;
+}
+ol.breadcrumb{
+    margin-bottom: 0;
+    background: #FFFFFF;
+}
+.user-navigation, .image, .add-i, .remove-i{
+    display: flex;
+    align-items: center;
+}
+.upload-image{
+    width: 150px;
+    height: 150px;
+    background-color: #f1f3f4;
+    border-radius: 11px;
+    margin: 40px 40px 40px 0;
+}
+.mid-dot{
+    margin: 0 10px 0 10px;
+}
+.form-control, .form-control:focus, .form-control:active{
+    background-color: #f1f3f4;
+    border: none;
+    border-radius: 20px;
+    box-shadow: none;
+    padding: 0 0 0 20px;
+}
+.form-group > label{
+    color: #7a8083;
+    font-weight: 600;
+    font-size: 0.9em;
+    margin-left: 20px;
+}
+
+tr.header {
+    border-bottom: 1px solid #e2e2e2;
+}
+.p-image{
+    min-width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #d8d8d8;
+}
+.flex-center{
+    display: flex;
+    align-items: center;
+}
+
+li.dropdownList{
+    padding:4px 16px 4px 12px
+}

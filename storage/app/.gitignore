@@ -1,0 +1,8 @@
+*
+!public/
+!.gitignore
+!assets/
+!assets/flags/
+!assets/flags/*
+!assets/country_backgrounds/
+!assets/country_backgrounds/*

@@ -1,0 +1,1854 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "TravelBuddi API",
+        "description": "A product of Appetiser",
+        "contact": {
+            "name": "Iazell",
+            "email": "iazell.raper@appetiser.com.au"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "{ip or domain}/api/v1",
+            "description": "Base Endpoint"
+        }
+    ],
+    "paths": {
+        "/auth/login": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Login user. Authenticate credentials and returns a token.",
+                "operationId": "App\\Http\\Controllers\\API\\V1\\ApiAuthController::login",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "description": "Email Address",
+                                        "type": "string",
+                                        "example": "testuser@gmail.com"
+                                    },
+                                    "password": {
+                                        "description": "Password",
+                                        "type": "string",
+                                        "example": "password"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "Invalid Credentials"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    },
+                    "200": {
+                        "description": "Login Success"
+                    }
+                },
+                "security": []
+            }
+        },
+        "/auth/register": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Register user. Creates new user, sends 'thank you' email and returns a token.",
+                "operationId": "App\\Http\\Controllers\\API\\V1\\ApiAuthController::register",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "description": "Email Address",
+                                        "type": "string",
+                                        "example": "testuser@gmail.com"
+                                    },
+                                    "password": {
+                                        "description": "Password",
+                                        "type": "string",
+                                        "example": "password"
+                                    },
+                                    "first_name": {
+                                        "description": "First Name",
+                                        "type": "string",
+                                        "example": "Jane"
+                                    },
+                                    "last_name": {
+                                        "description": "Last Name",
+                                        "type": "string",
+                                        "example": "Doe"
+                                    },
+                                    "mobile_number": {
+                                        "description": "Mobile Number",
+                                        "type": "string",
+                                        "example": "+61 412345678"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "422": {
+                        "description": "Invalid Input"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    },
+                    "201": {
+                        "description": "Request Created"
+                    }
+                },
+                "security": []
+            }
+        },
+        "/auth/email/check": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Check email if exists. Used as a first step in user registration",
+                "description": "",
+                "operationId": "",
+                "parameters": [
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "description": "",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                }
+            }
+        },
+        "/auth/user": {
+            "get": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Get authenticated user's information",
+                "operationId": "App\\Http\\Controllers\\API\\V1\\ApiAuthController::getAuthUser",
+                "responses": {
+                    "400": {
+                        "description": "Invalid Token"
+                    },
+                    "401": {
+                        "description": "Token Expired"
+                    },
+                    "404": {
+                        "description": "Token Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    },
+                    "200": {
+                        "description": "Authenticated User"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/auth/verify": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Verify a user after registration ",
+                "description": "A 6 character verification code will be sent through email",
+                "operationId": "",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "uid": {
+                                        "description": "<b>Required</b> User ID",
+                                        "type": "string",
+                                        "example": "141203"
+                                    },
+                                    "verification_code": {
+                                        "description": "<b>Required</b> Verification Code",
+                                        "type": "string",
+                                        "example": ""
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                }
+            }
+        },
+        "/auth/verification/resend": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Resend verification code",
+                "operationId": "App\\Http\\Controllers\\API\\V1\\ApiAuthController::resendVerificationCode",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "description": "Email Address",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "422": {
+                        "description": "Invalid Input"
+                    },
+                    "400": {
+                        "description": "Invalid Token / Bad Request"
+                    },
+                    "401": {
+                        "description": "Token Expired"
+                    },
+                    "404": {
+                        "description": "User Not Found / Token Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    },
+                    "200": {
+                        "description": "Request OK"
+                    }
+                }
+            }
+        },
+        "/auth/logout": {
+            "get": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Logout user",
+                "operationId": "App\\Http\\Controllers\\API\\V1\\ApiAuthController::logout",
+                "responses": {
+                    "400": {
+                        "description": "Invalid Token"
+                    },
+                    "401": {
+                        "description": "Token Expired"
+                    },
+                    "404": {
+                        "description": "Token Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    },
+                    "200": {
+                        "description": "Logout Success"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/{country_id}/cities": {
+            "get": {
+                "tags": [
+                    "Cities"
+                ],
+                "summary": "Get cities by country",
+                "operationId": "getCities",
+                "parameters": [
+                    {
+                        "name": "country_id",
+                        "in": "path",
+                        "description": "Country ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "Invalid Token"
+                    },
+                    "401": {
+                        "description": "Token Expired"
+                    },
+                    "404": {
+                        "description": "Token Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    },
+                    "200": {
+                        "description": "Cities"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "cities/{city_id}/items": {
+            "get": {
+                "tags": [
+                    "Cities"
+                ],
+                "summary": "Get items per city",
+                "operationId": "App\\Http\\Controllers\\API\\V1\\ApiCitiesController::getItems",
+                "parameters": [
+                    {
+                        "name": "city_id",
+                        "in": "path",
+                        "description": "City ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "Invalid Token"
+                    },
+                    "401": {
+                        "description": "Token Expired"
+                    },
+                    "404": {
+                        "description": "Token Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    },
+                    "200": {
+                        "description": "Items"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "cities/{city_id}/items/{item_id}": {
+            "get": {
+                "tags": [
+                    "Cities"
+                ],
+                "summary": "Get items' details",
+                "operationId": "App\\Http\\Controllers\\API\\V1\\ApiCitiesController::getItemDetails",
+                "parameters": [
+                    {
+                        "name": "city_id",
+                        "in": "path",
+                        "description": "City ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "item_id",
+                        "in": "path",
+                        "description": "Item ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "Invalid Token"
+                    },
+                    "401": {
+                        "description": "Token Expired"
+                    },
+                    "404": {
+                        "description": "Token Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    },
+                    "200": {
+                        "description": "Item Details"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Cities"
+                ],
+                "summary": "Update items' details",
+                "operationId": "App\\Http\\Controllers\\API\\V1\\ApiCitiesController::updateItemDetails",
+                "parameters": [
+                    {
+                        "name": "city_id",
+                        "in": "path",
+                        "description": "City ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "item_id",
+                        "in": "path",
+                        "description": "Item ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "user_id": {
+                                        "description": "User ID",
+                                        "type": "integer",
+                                        "example": "1"
+                                    },
+                                    "recommended_price": {
+                                        "description": "Recommended Price",
+                                        "type": "double",
+                                        "example": "9.99"
+                                    },
+                                    "location_id": {
+                                        "description": "Location ID",
+                                        "type": "integer",
+                                        "example": "1"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "Invalid Token"
+                    },
+                    "401": {
+                        "description": "Token Expired"
+                    },
+                    "404": {
+                        "description": "Token Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    },
+                    "200": {
+                        "description": "Item Details"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "cities/{city_id}/locations/keyword": {
+            "get": {
+                "tags": [
+                    "Cities"
+                ],
+                "summary": "Get the locations of the given city and given keyword",
+                "operationId": "App\\Http\\Controllers\\API\\V1\\ApiCitiesController::getCityLocations",
+                "parameters": [
+                    {
+                        "name": "city_id",
+                        "in": "path",
+                        "description": "City ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "Invalid Token"
+                    },
+                    "401": {
+                        "description": "Token Expired"
+                    },
+                    "404": {
+                        "description": "Token Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    },
+                    "200": {
+                        "description": "City Locations"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/countries": {
+            "get": {
+                "tags": [
+                    "Countries"
+                ],
+                "summary": "Get countries",
+                "operationId": "App\\Http\\Controllers\\API\\V1\\ApiCountriesController::getCountries",
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "user_id": {
+                                        "description": "User ID",
+                                        "type": "integer",
+                                        "example": "1"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "Invalid Token"
+                    },
+                    "401": {
+                        "description": "Token Expired"
+                    },
+                    "404": {
+                        "description": "Token Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    },
+                    "200": {
+                        "description": "Countries"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/currencies": {
+            "get": {
+                "tags": [
+                    "Currencies"
+                ],
+                "summary": "Get currencies",
+                "operationId": "App\\Http\\Controllers\\API\\V1\\ApiCountriesController::getCurrencies",
+                "responses": {
+                    "400": {
+                        "description": "Invalid Token"
+                    },
+                    "401": {
+                        "description": "Token Expired"
+                    },
+                    "404": {
+                        "description": "Token Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    },
+                    "200": {
+                        "description": "Currencies"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/currencies/rates": {
+            "get": {
+                "tags": [
+                    "Currencies"
+                ],
+                "summary": "Get Currency Rates",
+                "operationId": "App\\Http\\Controllers\\API\\V1\\ApiCountriesController::getRates",
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "base": {
+                                        "description": "Base",
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "Invalid Token"
+                    },
+                    "401": {
+                        "description": "Token Expired"
+                    },
+                    "404": {
+                        "description": "Token Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    },
+                    "200": {
+                        "description": "Rates"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/search/country/{country_id}/{keyword=null}": {
+            "get": {
+                "tags": [
+                    "Search"
+                ],
+                "summary": "Country search in an empty state and with a given keyword",
+                "operationId": "App\\Http\\Controllers\\API\\V1\\ApiCountriesController::search",
+                "parameters": [
+                    {
+                        "name": "country_id",
+                        "in": "path",
+                        "description": "Country ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "keyword",
+                        "in": "path",
+                        "description": "Search Keyword",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "Invalid Token"
+                    },
+                    "401": {
+                        "description": "Token Expired"
+                    },
+                    "404": {
+                        "description": "Token Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    },
+                    "200": {
+                        "description": "Search Results"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/country/{country_id}/locations/{keyword}": {
+            "get": {
+                "tags": [
+                    "Countries"
+                ],
+                "summary": "Get the locations of the given country and given keyword",
+                "operationId": "App\\Http\\Controllers\\API\\V1\\ApiCountriesController::getCountryLocations",
+                "parameters": [
+                    {
+                        "name": "country_id",
+                        "in": "path",
+                        "description": "Country ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "keyword",
+                        "in": "path",
+                        "description": "Search Keyword",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "Invalid Token"
+                    },
+                    "401": {
+                        "description": "Token Expired"
+                    },
+                    "404": {
+                        "description": "Token Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    },
+                    "200": {
+                        "description": "Search Results"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/countries/saved": {
+            "post": {
+                "tags": [
+                    "Countries"
+                ],
+                "summary": "Get saved countries",
+                "operationId": "App\\Http\\Controllers\\API\\V1\\ApiCountriesController::saveCountry",
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "country_id": {
+                                        "description": "Country ID",
+                                        "type": "integer"
+                                    },
+                                    "country_name": {
+                                        "description": "Country Name",
+                                        "type": "string"
+                                    },
+                                    "capital": {
+                                        "description": "Capital",
+                                        "type": "string"
+                                    },
+                                    "full_name": {
+                                        "description": "Full Name",
+                                        "type": "string"
+                                    },
+                                    "country_numeric_code": {
+                                        "description": "Country Numeric Code",
+                                        "type": "string"
+                                    },
+                                    "country_alpha_code_2": {
+                                        "description": "Country Alpha Code 2",
+                                        "type": "string"
+                                    },
+                                    "country_alpha_code_3": {
+                                        "description": "Country Alpha Code 3",
+                                        "type": "string"
+                                    },
+                                    "tl_domain": {
+                                        "description": "TL Domain",
+                                        "type": "string"
+                                    },
+                                    "currency_code": {
+                                        "description": "Currency Code",
+                                        "type": "string"
+                                    },
+                                    "currency_name": {
+                                        "description": "Currency Name",
+                                        "type": "string"
+                                    },
+                                    "symbol_native": {
+                                        "description": "Currency Native Symbol",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "Invalid Token"
+                    },
+                    "401": {
+                        "description": "Token Expired"
+                    },
+                    "404": {
+                        "description": "Token Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    },
+                    "200": {
+                        "description": "Saved Countries"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/countries/user/{user_id}": {
+            "get": {
+                "tags": [
+                    "Countries"
+                ],
+                "summary": "Get saved countries",
+                "operationId": "App\\Http\\Controllers\\API\\V1\\ApiCountriesController::getSavedCountries",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "User ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "Invalid Token"
+                    },
+                    "401": {
+                        "description": "Token Expired"
+                    },
+                    "404": {
+                        "description": "Token Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    },
+                    "200": {
+                        "description": "Saved Countries"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/countries/delete": {
+            "delete": {
+                "tags": [
+                    "Countries"
+                ],
+                "summary": "Delete saved country",
+                "operationId": "App\\Http\\Controllers\\API\\V1\\ApiCountriesController::deleteSavedCountry",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "User ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "country_id": {
+                                        "description": "Country ID",
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "Invalid Token"
+                    },
+                    "401": {
+                        "description": "Token Expired"
+                    },
+                    "404": {
+                        "description": "Token Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    },
+                    "200": {
+                        "description": "Saved Countries"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/search/dashboard/{keyword=null}": {
+            "get": {
+                "tags": [
+                    "Search"
+                ],
+                "summary": "Dashboard search in an empty state and with a given keyword",
+                "operationId": "App\\Http\\Controllers\\API\\V1\\ApiDashboardSearchController::search",
+                "parameters": [
+                    {
+                        "name": "keyword",
+                        "in": "path",
+                        "description": "Search Keyword",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "Invalid Token"
+                    },
+                    "401": {
+                        "description": "Token Expired"
+                    },
+                    "404": {
+                        "description": "Token Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    },
+                    "200": {
+                        "description": "Search Results"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/device/register": {
+            "post": {
+                "tags": [
+                    "Devices"
+                ],
+                "summary": "Register a Device",
+                "operationId": "App\\Http\\Controllers\\API\\V1\\ApiDevicesController::store",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "device_token": {
+                                        "description": "Device Token",
+                                        "type": "string",
+                                        "example": "f0V5aAjGW7I:APA91bGlshinKXIAWR97SotBcihmmZ5ZxhZeZ5z-IXIZX1E64eVl3KOmKa8dMnGdHuwpXtfsvMtW5l03JZUmWWcoB2PfOZB1OZ58LqoMZa83Ih9B20i5Flu9wpAAP9mcBAwHCsnZwXvl"
+                                    },
+                                    "type": {
+                                        "description": "Device Type",
+                                        "type": "string",
+                                        "enum": "android|ios",
+                                        "example": "ios"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Token Expired"
+                    },
+                    "404": {
+                        "description": "Device Not Found"
+                    },
+                    "409": {
+                        "description": "Device is already registered"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    },
+                    "200": {
+                        "description": "Device Added"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/device/unregister/{device_id}": {
+            "delete": {
+                "tags": [
+                    "Devices"
+                ],
+                "summary": "Register a Device",
+                "operationId": "App\\Http\\Controllers\\API\\V1\\ApiDevicesController::destroy",
+                "parameters": [
+                    {
+                        "name": "device_id",
+                        "in": "path",
+                        "description": "Device ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Token Expired"
+                    },
+                    "404": {
+                        "description": "Device Not Found"
+                    },
+                    "409": {
+                        "description": "Device is already registered"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    },
+                    "200": {
+                        "description": "Device Deleted"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/items": {
+            "get": {
+                "tags": [
+                    "Items"
+                ],
+                "summary": "Get All Items",
+                "operationId": "App\\Http\\Controllers\\API\\V1\\ApiItemsController::index",
+                "responses": {
+                    "400": {
+                        "description": "Invalid Token"
+                    },
+                    "401": {
+                        "description": "Token Expired"
+                    },
+                    "404": {
+                        "description": "Token Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    },
+                    "200": {
+                        "description": "Items"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Items"
+                ],
+                "summary": "Submit a New Item",
+                "operationId": "App\\Http\\Controllers\\API\\V1\\ApiItemsController::submitNewItem",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "user_id": {
+                                        "description": "User ID",
+                                        "type": "integer",
+                                        "example": "1"
+                                    },
+                                    "place_id": {
+                                        "description": "Place ID",
+                                        "type": "string",
+                                        "example": "ChIJKwdvi4-Z4jAR-GnYG7XAGII"
+                                    },
+                                    "city_id": {
+                                        "description": "City ID",
+                                        "type": "integer",
+                                        "example": "1"
+                                    },
+                                    "category_id": {
+                                        "description": "Category ID",
+                                        "type": "integer",
+                                        "example": "1"
+                                    },
+                                    "item_name": {
+                                        "description": "Item Name",
+                                        "type": "string",
+                                        "example": "Eiffel Tower"
+                                    },
+                                    "recommended_price": {
+                                        "description": "Recommended Price",
+                                        "type": "double",
+                                        "example": "99.99"
+                                    },
+                                    "image_url": {
+                                        "description": "Item's Image URL",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "Invalid Token"
+                    },
+                    "401": {
+                        "description": "Token Expired"
+                    },
+                    "404": {
+                        "description": "Token Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    },
+                    "200": {
+                        "description": "Items"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/items/user/{user_id}": {
+            "get": {
+                "tags": [
+                    "Items"
+                ],
+                "summary": "Get Followed Items",
+                "operationId": "App\\Http\\Controllers\\API\\V1\\ApiItemsController::getContributedItems",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "User ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "Invalid Token"
+                    },
+                    "401": {
+                        "description": "Token Expired"
+                    },
+                    "404": {
+                        "description": "Token Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    },
+                    "200": {
+                        "description": "User's followed items"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/items/{item_id}": {
+            "get": {
+                "tags": [
+                    "Items"
+                ],
+                "summary": "Get Item",
+                "operationId": "App\\Http\\Controllers\\API\\V1\\ApiItemsController::getItem",
+                "responses": {
+                    "400": {
+                        "description": "Invalid Token"
+                    },
+                    "401": {
+                        "description": "Token Expired"
+                    },
+                    "404": {
+                        "description": "Token Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    },
+                    "200": {
+                        "description": "Items"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/offers": {
+            "get": {
+                "tags": [
+                    "Offers"
+                ],
+                "summary": "Get offers",
+                "operationId": "App\\Http\\Controllers\\API\\V1\\ApiOffersController::getOffers",
+                "responses": {
+                    "400": {
+                        "description": "Invalid Token"
+                    },
+                    "401": {
+                        "description": "Token Expired"
+                    },
+                    "404": {
+                        "description": "Token Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    },
+                    "200": {
+                        "description": "Offers"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/offers/{offer_id}": {
+            "get": {
+                "tags": [
+                    "Offers"
+                ],
+                "summary": "Get offers' details",
+                "operationId": "App\\Http\\Controllers\\API\\V1\\ApiOffersController::getOfferDetails",
+                "responses": {
+                    "400": {
+                        "description": "Invalid Token"
+                    },
+                    "401": {
+                        "description": "Token Expired"
+                    },
+                    "404": {
+                        "description": "Token Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    },
+                    "200": {
+                        "description": "Offers"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/password/email": {
+            "post": {
+                "tags": [
+                    "Password"
+                ],
+                "summary": "Send reset password email with token",
+                "operationId": "App\\Http\\Controllers\\API\\V1\\ApiPasswordResetsController::sendResetCodeEmail",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "description": "Email Address",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "422": {
+                        "description": "Invalid Input"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    },
+                    "200": {
+                        "description": "Request OK"
+                    }
+                },
+                "security": []
+            }
+        },
+        "/password/reset": {
+            "post": {
+                "tags": [
+                    "Password"
+                ],
+                "summary": "Reset user's password",
+                "operationId": "App\\Http\\Controllers\\API\\V1\\ApiPasswordResetsController::resetPassword",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "description": "Email Address",
+                                        "type": "string"
+                                    },
+                                    "token": {
+                                        "description": "Reset Token",
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "description": "Password",
+                                        "type": "string"
+                                    },
+                                    "password_confirmation": {
+                                        "description": "Confirm Password",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "422": {
+                        "description": "Invalid Input"
+                    },
+                    "404": {
+                        "description": "Reset Token Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    },
+                    "200": {
+                        "description": "Request OK"
+                    }
+                },
+                "security": []
+            }
+        },
+        "/cities/{city_id}/items/{item_id}/recommendations": {
+            "get": {
+                "tags": [
+                    "Recommendations"
+                ],
+                "summary": "Get recommendations",
+                "operationId": "App\\Http\\Controllers\\API\\V1\\ApiRecommendationsController::getItemRecommendations",
+                "parameters": [
+                    {
+                        "name": "city_id",
+                        "in": "path",
+                        "description": "City ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "item_id",
+                        "in": "path",
+                        "description": "Item ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "Invalid Token"
+                    },
+                    "401": {
+                        "description": "Token Expired"
+                    },
+                    "404": {
+                        "description": "Token Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    },
+                    "200": {
+                        "description": "Recommendations"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/locations/{location_id}/recommendations": {
+            "get": {
+                "tags": [
+                    "Recommendations"
+                ],
+                "summary": "Get recommendations",
+                "operationId": "App\\Http\\Controllers\\API\\V1\\ApiRecommendationsController::getPlaceRecommendations",
+                "parameters": [
+                    {
+                        "name": "location_id",
+                        "in": "path",
+                        "description": "Location ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "Invalid Token"
+                    },
+                    "401": {
+                        "description": "Token Expired"
+                    },
+                    "404": {
+                        "description": "Token Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    },
+                    "200": {
+                        "description": "Recommendations"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/details": {
+            "get": {
+                "tags": [
+                    "Recommendations"
+                ],
+                "summary": "Get place details",
+                "operationId": "App\\Http\\Controllers\\API\\V1\\ApiRecommendationsController::getPlaceDetails",
+                "responses": {
+                    "400": {
+                        "description": "Invalid Token"
+                    },
+                    "401": {
+                        "description": "Token Expired"
+                    },
+                    "404": {
+                        "description": "Token Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    },
+                    "200": {
+                        "description": "recommendations"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/user/{user_id}/watchlist": {
+            "post": {
+                "tags": [
+                    "Watchlist"
+                ],
+                "summary": "Save an item to user watchlist",
+                "operationId": "App\\Http\\Controllers\\API\\V1\\ApiUserWatchedItemsController::store",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "User ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "item_id": {
+                                        "description": "Item ID",
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "Invalid Token"
+                    },
+                    "401": {
+                        "description": "Token Expired"
+                    },
+                    "404": {
+                        "description": "Token Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    },
+                    "200": {
+                        "description": "Saved Watchlist"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Watchlist"
+                ],
+                "summary": "Delete saved country",
+                "operationId": "App\\Http\\Controllers\\API\\V1\\ApiUserWatchedItemsController::delete",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "User ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "item_id": {
+                                        "description": "Item ID",
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "Invalid Token"
+                    },
+                    "401": {
+                        "description": "Token Expired"
+                    },
+                    "404": {
+                        "description": "Token Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    },
+                    "200": {
+                        "description": "Saved Watchlist"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/user": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Retrieve user's information",
+                "operationId": "show",
+                "responses": {
+                    "400": {
+                        "description": "Invalid Token"
+                    },
+                    "401": {
+                        "description": "Token Expired"
+                    },
+                    "404": {
+                        "description": "User Not Found / Token Not Found"
+                    },
+                    "422": {
+                        "description": "Invalid Input"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    },
+                    "200": {
+                        "description": "Request OK"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Update user's information",
+                "operationId": "update",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "User ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "first_name": {
+                                        "description": "First Name",
+                                        "type": "string",
+                                        "example": "John"
+                                    },
+                                    "last_name": {
+                                        "description": "Last Name",
+                                        "type": "string",
+                                        "example": "Doe"
+                                    },
+                                    "country": {
+                                        "description": "Country",
+                                        "type": "string",
+                                        "example": "Philippines"
+                                    },
+                                    "mobile_number": {
+                                        "description": "Mobile Number",
+                                        "type": "string",
+                                        "example": "+63 9277468888"
+                                    },
+                                    "address": {
+                                        "description": "Address",
+                                        "type": "string",
+                                        "example": "216 Cabreros Street Cebu City"
+                                    },
+                                    "password": {
+                                        "description": "Password",
+                                        "type": "string",
+                                        "example": "password"
+                                    },
+                                    "is_allowed": {
+                                        "description": "If the user is allowed to post prices",
+                                        "type": "integer",
+                                        "example": "1"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "Invalid Token"
+                    },
+                    "401": {
+                        "description": "Token Expired"
+                    },
+                    "404": {
+                        "description": "User Not Found / Token Not Found"
+                    },
+                    "422": {
+                        "description": "Invalid Input"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    },
+                    "200": {
+                        "description": "Request OK"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/user/photo": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Upload profile photo",
+                "operationId": "App\\Http\\Controllers\\API\\V1\\ApiUsersController::uploadProfilePhoto",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "photo": {
+                                        "description": "Image File",
+                                        "type": "string",
+                                        "format": "file"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "Invalid Token"
+                    },
+                    "401": {
+                        "description": "Token Expired"
+                    },
+                    "404": {
+                        "description": "User Not Found / Token Not Found"
+                    },
+                    "422": {
+                        "description": "Invalid Input"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    },
+                    "200": {
+                        "description": "Request OK"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "BearerAuth": {
+                "type": "http",
+                "scheme": "bearer"
+            }
+        }
+    }
+}

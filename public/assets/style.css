@@ -1,0 +1,111 @@
+@font-face {
+    font-family: "Plus Jakarta Sans";
+    src: url("./fonts/PlusJakartaSans-Medium.woff") format('woff');
+}
+
+
+body {
+  background-color: #1ab8fa;
+  color: #303133;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-weight: 500;
+  height: 100vh;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.main-container  {
+  display: flex;
+  justify-content: center;
+
+  flex-wrap: wrap;
+}
+.main-container  .content {
+  max-height: 480px;
+  margin-bottom: 50px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+.main-container  footer {
+  display: flex;
+  flex: 1 0 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.main-container  footer ul {
+  display: flex;
+  list-style-type: none;
+  padding-inline-start: 0;
+}
+.main-container  footer ul li {
+  margin: 0 20px;
+}
+
+.main-container  footer ul li a {
+  color: #fff;
+  text-decoration: none;
+
+}
+.position-ref {
+  position: relative;
+}
+
+.top-right {
+  position: absolute;
+  right: 10px;
+  top: 18px;
+}
+
+.content {
+  text-align: center;
+  background: #fff;
+  padding:25px;
+}
+
+.title {
+  font-size: 84px;
+}
+
+.links > a {
+  color: #636b6f;
+  padding: 0 25px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.1rem;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.m-b-md {
+  margin-bottom: 30px;
+}
+
+.m-t-lg {
+  margin-top: 60px;
+}
+
+.badge {
+  height: 73px;
+}
+.badge-appstore {
+  height: 50px;
+}
+
+h1 {
+  color: #303133;
+  text-transform: uppercase;
+  font-size: 1.5em;
+  letter-spacing: 0.05em;
+}
+
+.content {
+    border-radius: 10px;

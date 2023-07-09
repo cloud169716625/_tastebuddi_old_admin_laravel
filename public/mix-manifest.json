@@ -1,0 +1,15 @@
+{
+    "/js/app.js": "/js/app.js",
+    "/css/app.css": "/css/app.css",
+    "/js/categories/categories.js": "/js/categories/categories.js",
+    "/js/cities/cities.js": "/js/cities/cities.js",
+    "/js/common/header.js": "/js/common/header.js",
+    "/js/countries/countries.js": "/js/countries/countries.js",
+    "/js/items/items.js": "/js/items/items.js",
+    "/js/landing/privacy.js": "/js/landing/privacy.js",
+    "/js/landing/terms.js": "/js/landing/terms.js",
+    "/js/locations/locations.js": "/js/locations/locations.js",
+    "/js/reports/reports.js": "/js/reports/reports.js",
+    "/js/settings/settings.js": "/js/settings/settings.js",
+    "/js/users/users.js": "/js/users/users.js"
+}

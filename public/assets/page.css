@@ -1,0 +1,87 @@
+@font-face {
+    font-family: "Plus Jakarta Sans";
+    src: url("./fonts/PlusJakartaSans-Medium.woff") format('woff');
+}
+
+
+body {
+  background-color: #1ab8fa;
+  color: #303133;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-weight: 500;
+
+  margin: 0;
+
+}
+
+li a {
+    font-family: "Plus Jakarta Sans", sans-serif;}
+.logo-container {
+    display: flex;
+    justify-content: center;
+    padding: 40px 0;
+    flex-wrap: wrap;
+}
+.logo-container
+.logo-heading {
+    background: #fff;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+
+}
+
+.app-title {
+    flex:  1 0 100%;
+    color: #fff;
+    margin-top: 20px;
+    font-size: 24px;
+    text-align: center;
+}
+
+.content {
+    background: #fff;
+    max-width: 1150px;
+    padding: 50px;
+    margin:20px auto 20px;
+    border-radius: 10px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+p.c25 span,
+.c31.title span{
+    font-size: 30px;
+}
+
+
+footer {
+    display: flex;
+    flex: 1 0 100%;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  
+   footer ul {
+    display: flex;
+    list-style-type: none;
+    padding-inline-start: 0;
+  }
+   footer ul li {
+    margin: 0 20px;
+  }
+  
+   footer ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 18px;
+  
+  }
+.support-content {
+    background: #fff;
+    max-width: 1150px;
+    padding: 50px;
+    margin:20px auto 20px;
+    border-radius: 10px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+
+}
